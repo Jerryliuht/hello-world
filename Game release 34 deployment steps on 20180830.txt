@@ -1,0 +1,332 @@
+Game release 34 deployment steps on 20180830
+
+
+1. back up map and rewrites files for all web servers
+[webuser@571853-web1-vm ~]$ cd jliu/
+[webuser@571853-web1-vm jliu]$ cd configfilesbackup/
+[webuser@571853-web1-vm configfilesbackup]$ ./backupConfigFiles.sh prod
+The destination of the backup is directory: /home/webuser/jliu/configfilesbackup/prod/backupForDeploy20180830
+The file plugin-cfg.xml has backed up successfully !
+The file game-simple.map has backed up successfully !
+The file rewrites-game.conf has backed up successfully !
+The file blocked-ips.map has backed up successfully !
+The path /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf has backed up successfully !
+
+2. check payment cert files for all app servers
+[wasuser@571845-stg-vm deploy]$ cd /data/deploy/
+[wasuser@571845-stg-vm deploy]$ ./certcheck.sh
+[wasuser@571845-stg-vm deploy]$ ./certcheck.sh
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app1 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app1 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app1 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app2 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app2 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app2 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app3 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app3 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app3 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app4 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app4 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app4 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app5 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app5 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app5 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app6 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app6 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app6 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app7 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app7 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app7 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app8 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app8 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app8 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app9 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app9 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app9 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app10 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app10 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app10 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+
+
+ 
+3. back up payment cert files 
+on app1-10
+cd /home/wasuser/jliu/backupCertsFiles
+cp -r /data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider ./
+
+--staging app server
+--backup
+cd /home/wasuser/jliu/backupAndRestorePaymentCerts
+[wasuser@571845-stg-vm backupAndRestorePaymentCerts]$ ./backupPaymentCertsFiles.sh prod
+
+4. back up xcomreg table
+--staging app server
+cd /home/wasuser/jliu/backuptablesforpatch
+db2 -tvf exportprodxcomreg_del.sql
+
+5. check app server JVMs
+--staging app server
+cd /home/wasuser/jliu/
+[wasuser@571845-stg-vm jliu]$ ./checkAppServerJVMs.sh 
+app1 server1 tools1 scheduler1 server2 
+app2 server1 tools1 scheduler1 server2 
+app3 server1 tools1 scheduler1 server2 
+app4 server1 tools1 scheduler1 server2 
+app5 server1 scheduler1 server2 
+app6 server1 scheduler1 server2 
+app7 server1 scheduler1 server2 
+app8 server1 scheduler1 server2 
+app9 server1 scheduler1 server2 
+app10 server1 scheduler1 server2 
+
+6.Update plugins and remove 'BLUE' Game Live Web servers (1,3) from Live service
+6.1 remove web1 & web3 from load balance
+[webuser@571853-web1-vm configfilesbackup]$   store
+[webuser@571853-web1-vm Stores.war]$ cd data/
+[webuser@571853-web1-vm data]$ rm layer7.htm
+rm: remove regular file `layer7.htm'? y
+[webuser@571853-web1-vm data]$ 
+
+[webuser@571855-web3-vm configfilesbackup]$     store
+[webuser@571855-web3-vm Stores.war]$ cd data/
+[webuser@571855-web3-vm data]$ rm -rf layer7.htm
+[webuser@571855-web3-vm data]$ 
+
+6.2 remove Cell1 app servers from plugins
+[webuser@571853-web1-vm httpconf]$ conf
+[webuser@571853-web1-vm httpconf]$ cp plugin-cfg.xml plugin-cfg.xml.20180830
+[webuser@571853-web1-vm httpconf]$ cp plugin-cfg.xml_cell02 plugin-cfg.xml
+
+
+7. Deploy current release to Game Live blue cell app1
+[wasuser@571829-appvm1 ~]$  nohup ./deploy_game70.sh gamerp > game70-201808281951-7.00.1368.3083.log &
+tail -f game70-201808281951-7.00.1368.3083.log
+
+8. Deploy release to Game Live blue cell app3,5,7,9
+nohup ./deploy_game70.sh gamerp > game70-201808281951-7.00.1368.3083.log &
+tail -f game70-201808281951-7.00.1368.3083.log
+
+9. apply the patch to blue cell
+\\salmon.ltd.uk\ns1\Game\Releases\Release 18_08 - Sprint 34\sprint34_patches
+
+a. webserver restart
+
+b. touch all jsp's
+
+c. rolling restart
+
+/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear
+
+store;
+find . -name "*.jsp" -exec touch {} \;
+find . -name "*.jsps" -exec touch {} \;
+
+
+10. check and restore payment certs
+[wasuser@571845-stg-vm deploy]$ ./certcheck.sh
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app2 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app2 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app2 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app4 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app4 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app4 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app6 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app6 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app6 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app8 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app8 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app8 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+!!! Found 873fef85b033cb72b4d720ecf0329e31 for game_dm.p12 on app10 when it should be 511fc44712af4f912d0be2eeeb3fdeb3!!!
+!!! Found 3ab7464c7d14ea568bb371d2a2c2f6bc for gameweb.p12 on app10 when it should be 22e06703e355c4f05ce83b926439711c!!!
+!!! Found 47851e46e8581a2824cde16c46fc653a for gamemoto.p12 on app10 when it should be 3bd367b00086c8ee44507d816d6eeb2a!!!
+
+
+--restore payment certs
+log in staging app server to restore payment certs for all app servers:
+
+cd /home/wasuser/jliu/backupAndRestorePaymentCerts/prod/backupForDeploy`date +"%Y%m%d"`/provider/cybersource
+scp *.p12 wasuser@app1:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+scp *.p12 wasuser@app3:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+scp *.p12 wasuser@app5:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+scp *.p12 wasuser@app7:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+scp *.p12 wasuser@app9:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+
+11. restore map files
+cp /home/webuser/jliu/configfilesbackup/prod/backupForDeploy`date +"%Y%m%d"`/httpconf/maps/game-simple.map /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf/maps/
+cp /home/webuser/jliu/configfilesbackup/prod/backupForDeploy`date +"%Y%m%d"`/httpconf/maps/blocked-ips.map /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf/maps/
+cp /home/webuser/jliu/configfilesbackup/prod/backupForDeploy`date +"%Y%m%d"`/httpconf/include/rewrites-game-mobile.conf /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf/include/
+cp /home/webuser/jliu/configfilesbackup/prod/backupForDeploy`date +"%Y%m%d"`/httpconf/include/rewrites-game.conf /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf/include/
+
+
+12. compare xcomreg table
+[wasuser@571845-stg-vm backuptablesforpatch]$ diff prodxcomreg.del prodxcomreg.del.org.20180830
+26c26
+< 10309,"GFF_EXAMPLE_GAME_FLEX_FLOW",0,"enabled","","An example of how to set up a Game flex flow option for a non default store id","1","1",0
+---
+> 10309,"GFF_EXAMPLE_GAME_FLEX_FLOW",0,"enabled","","An example of how to set up a Game flex flow option for a default store id=0","1","1",0
+364c364
+< 12902,"DATABASE_VERSION",0,"7.00.1368.3083",,"The version of the deployed database","0","0",
+---
+> 12902,"DATABASE_VERSION",0,"7.00.1368.3062",,"The version of the deployed database","0","0",
+371c371
+< 12909,"YOU_TUBE_VIDEO_IDENTIFIER_ATTRIBUTE",0,"YouTube Video","","Name of the YouTube Video Identifier descriptive attribute","0","1",0
+---
+> 12909,"YOU_TUBE_VIDEO_IDENTIFIER_ATTRIBUTE",0,"YouTube Video","","Name of the YouTube Pli Identifier descriptive attribute","0","1",0
+458c458
+< 15265,"ALL_PRODUCTS_RESULTS_PER_PAGE",0,"100","","The number of products displayed on a page for All","0","1",0
+---
+> 15265,"ALL_PRODUCTS_RESULTS_PER_PAGE",0,"100","","The number of products displayed on a page for Mobile","0","1",0
+626c626
+< 16357,"571845-stg-vm.game.net_gamerp_cell_1_VERSION",0,"7.00.1368.3083",,"The version of the deployed database","0","0",
+---
+> 16357,"571845-stg-vm.game.net_gamerp_cell_1_VERSION",0,"7.00.1368.3062",,"The version of the deployed database","0","0",
+664c664
+< 16761,"DATABASE_DEPLOYMENT",0,"2018-08-30 03:46:35",,"The version of the deployed database","0","0",
+---
+> 16761,"DATABASE_DEPLOYMENT",0,"2018-08-09 09:06:48",,"The version of the deployed database","0","0",
+806,809d805
+< 17612,"MAX_CHARS_FOR_SHORT_DESCRIPTION",0,"125",,"Maximum characters for short description","0","1",0
+< 17613,"SEO_META_TITLE",10151,"SEO Meta Title",,"Name of the Meta Title for any PDP","0","1",0
+< 17614,"YODEL_SHIPPING_MODEL",0,"[list-entry]",,"Shipmode Information for YODEL","0","1",0
+< 17615,"ALGOLIA_URL_JS",0,"https://assets.game.net/elements/search/prod/",,"Algolia Search URL","0","1",0
+
+13. restart web servers and app servers
+sudo /etc/init.d/apache85 status gamerp
+sudo /etc/init.d/apache85 stop gamerp
+sleep 5
+sudo /etc/init.d/apache85 status gamerp
+sudo /etc/init.d/apache85 start gamerp
+sleep 5
+sudo /etc/init.d/apache85 status gamerp
+
+bin;
+for jvm in server1 server2 scheduler1 tools1;do ./stopServer.sh $jvm;sleep 5;./startServer.sh $jvm;done
+
+
+14. Game to take tests
+--hosts
+172.30.0.201 www.game.co.uk <- host file override for BLUE
+172.30.0.211 www.game.co.uk <- host file override for GREEN
+
+
+15.  -- did not do
+/home/wasuser/digitrustCA.cer
+and
+/home/wasuser/digitrustIntermediate.cer
+
+scp digitrustCA.cer wasuser@app1:/home/wasuser/
+scp digitrustCA.cer wasuser@app3:/home/wasuser/
+scp digitrustCA.cer wasuser@app5:/home/wasuser/
+scp digitrustCA.cer wasuser@app7:/home/wasuser/
+scp digitrustCA.cer wasuser@app9:/home/wasuser/
+
+scp digitrustIntermediate.cer wasuser@app1:/home/wasuser/
+scp digitrustIntermediate.cer wasuser@app3:/home/wasuser/
+scp digitrustIntermediate.cer wasuser@app5:/home/wasuser/
+scp digitrustIntermediate.cer wasuser@app7:/home/wasuser/
+scp digitrustIntermediate.cer wasuser@app9:/home/wasuser/
+
+Then: -
+cd /data/IBM/WebSphere/AppServer/profiles/gamerp/config/cells/gamerp_cell_1/nodes/WC_gamerp_node_1
+
+/data/IBM/WebSphere/AppServer/java/jre/bin/ikeycmd -cert -add -label DigiTrustCA -db trust.p12 -pw WebAS -file /home/wasuser/digitrustCA.cer
+/data/IBM/WebSphere/AppServer/java/jre/bin/ikeycmd -cert -add -label DigiTrustIntemediate -db trust.p12 -pw WebAS -file /home/wasuser/digitrustIntermediate.cer
+
+
+
+Then run the same commands in 
+
+cd /data/IBM/WebSphere/AppServer/profiles/gamers/etc
+
+
+Summary steps:
+
+1. Deploy was to BLUE only?  -- done
+2. Patches occurred on BLUE only?  --done
+3. Jerry is putting Layer7 files on BLUE only. --done
+4. Darren will clear the cache for stuff manually
+5. Confirm the sched jobs etc are on BLUE ONLY?  --done
+
+Darren Smith:
+1. Log into the administrative console.  
+2. Expand Security and click SSL certificate and key management. Under Configuration settings, click Manage endpoint security configurations. 
+3. Select the appropriate outbound configuration to get to the (cell):gamerp_cell_1:(node):WC_gamerp_node_1 management scope. 
+4. Under Related Items, click Key stores and certificates and click the NodeDefaultTrustStore key store. 
+5. Under Additional Properties, click Signer certificates and  Retrieve From Port.  
+6. In the Host field, enter maps.googleapis.com in the host name field, enter 443 in the Port field, and maps.googleapis.com_cert in the Alias field. 
+7. Click Retrieve Signer Information.  
+8. Verify that the certificate information is for a certificate that you can trust. 
+9. Click Apply and Save.
+
+
+Put holding page down
+
+16. Deploy to Green Cell app2
+
+[wasuser@571829-appvm1 ~]$  nohup ./deploy_game70.sh gamerp > game70-201808281951-7.00.1368.3083.log &
+tail -f game70-201808281951-7.00.1368.3083.log
+
+17. Deploy release to Game Live Green cell app4,6,8,10
+nohup ./deploy_game70.sh gamerp > game70-201808281951-7.00.1368.3083.log &
+tail -f game70-201808281951-7.00.1368.3083.log
+
+18. apply the patch to Green cell
+\\salmon.ltd.uk\ns1\Game\Releases\Release 18_08 - Sprint 34\sprint34_patches
+
+a. webserver restart
+
+b. touch all jsp's
+
+c. rolling restart
+
+/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear
+
+store;
+find . -name "*.jsp" -exec touch {} \;
+find . -name "*.jsps" -exec touch {} \;
+
+19. restore payment certs to Green Cell
+log in staging app server to restore payment certs for all app servers:
+
+cd /home/wasuser/jliu/backupAndRestorePaymentCerts/prod/backupForDeploy`date +"%Y%m%d"`/provider/cybersource
+scp *.p12 wasuser@app2:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+scp *.p12 wasuser@app4:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+scp *.p12 wasuser@app6:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+scp *.p12 wasuser@app8:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+scp *.p12 wasuser@app10:/data/IBM/WebSphere/AppServer/profiles/gamerp/installedApps/WC_gamerp_cluster/WC_gamerp.ear/properties/extended/com/salmon/ec/payment/provider/cybersource/
+
+20. restore map and rewrites files to web2&4 servers
+cp /home/webuser/jliu/configfilesbackup/prod/backupForDeploy`date +"%Y%m%d"`/httpconf/maps/game-simple.map /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf/maps/
+cp /home/webuser/jliu/configfilesbackup/prod/backupForDeploy`date +"%Y%m%d"`/httpconf/maps/blocked-ips.map /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf/maps/
+cp /home/webuser/jliu/configfilesbackup/prod/backupForDeploy`date +"%Y%m%d"`/httpconf/include/rewrites-game-mobile.conf /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf/include/
+cp /home/webuser/jliu/configfilesbackup/prod/backupForDeploy`date +"%Y%m%d"`/httpconf/include/rewrites-game.conf /data/IBM/WebSphere/CommerceServer70/instances/gamerp/httpconf/include/
+
+21. restart web2&4 and Green app servers
+
+sudo /etc/init.d/apache85 status gamerp
+sudo /etc/init.d/apache85 stop gamerp
+sleep 5
+sudo /etc/init.d/apache85 status gamerp
+sudo /etc/init.d/apache85 start gamerp
+sleep 5
+sudo /etc/init.d/apache85 status gamerp
+
+bin;
+for jvm in server1 server2;do ./stopServer.sh $jvm;sleep 5;./startServer.sh $jvm;done
+
+Green Cell status:
+1. Blue Cell deployment  -- done
+2. Blue Cell patches  --done
+3. Copy back map and rewrites files -- done
+4. Plugin only pointing to Green app servers  --done
+5. Layer7 files off  --done
+6. Cert import and sync  -- done
+7 Scheduler1 JVM down  --done
+
+
+
+on WEB1 -> # curl https://www.game.co.uk/destination-xbox-one -I | grep HTTP/1
+should return 302 not 200 response
+
+curl https://www.game.co.uk/destination-xbox-one-live -I | grep HTTP/1
+
